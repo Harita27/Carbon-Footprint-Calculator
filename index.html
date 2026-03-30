@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoTrack — Carbon Footprint Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Ambient background blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <div class="app-shell">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-leaf">🌿</span>
+        <span class="logo-text">EcoTrack</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="home" onclick="navTo('home')">
+          <span class="nav-icon">🏠</span><span class="nav-label">Welcome</span>
+        </button>
+        <button class="nav-item" data-page="house" onclick="navTo('house')">
+          <span class="nav-icon">⚡</span><span class="nav-label">Energy</span>
+        </button>
+        <button class="nav-item" data-page="travel" onclick="navTo('travel')">
+          <span class="nav-icon">🚗</span><span class="nav-label">Travel</span>
+        </button>
+        <button class="nav-item" data-page="flights" onclick="navTo('flights')">
+          <span class="nav-icon">✈️</span><span class="nav-label">Flights</span>
+        </button>
+        <button class="nav-item" data-page="diet" onclick="navTo('diet')">
+          <span class="nav-icon">🥗</span><span class="nav-label">Diet</span>
+        </button>
+        <button class="nav-item" data-page="results" onclick="navTo('results')">
+          <span class="nav-icon">📊</span><span class="nav-label">Results</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="progress-label">Completion</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="sidebarProgress"></div>
+        </div>
+        <div class="progress-pct" id="progressPct">0%</div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- HOME -->
+      <section class="page active" id="home">
+        <div class="hero-section">
+          <div class="hero-badge">🌍 Environmental Impact</div>
+          <h1 class="hero-title">Know Your <br><em>Carbon Story</em></h1>
+          <p class="hero-desc">Understand your environmental footprint across energy, transport, and lifestyle — then discover exactly how to reduce it.</p>
+          <div class="hero-stats">
+            <div class="stat-pill">🏭 5 Categories</div>
+            <div class="stat-pill">📈 Instant Results</div>
+            <div class="stat-pill">💡 Reduction Tips</div>
+          </div>
+          <button class="btn-primary" onclick="goNext('home')">
+            Begin Assessment <span class="btn-arrow">→</span>
+          </button>
+        </div>
+        <div class="hero-visual">
+          <div class="earth-ring">
+            <div class="earth-core">🌏</div>
+          </div>
+          <div class="orbit-dot dot-1">⚡</div>
+          <div class="orbit-dot dot-2">🚗</div>
+          <div class="orbit-dot dot-3">✈️</div>
+          <div class="orbit-dot dot-4">🥗</div>
+        </div>
+      </section>
+
+      <!-- ENERGY -->
+      <section class="page hidden" id="house">
+        <div class="page-header">
+          <div class="page-icon-wrap energy-color">⚡</div>
+          <div>
+            <div class="page-step">Step 1 of 4</div>
+            <h2 class="page-title">Household Energy</h2>
+          </div>
+        </div>
+        <p class="page-desc">Your home's energy usage is often the largest contributor to your carbon footprint.</p>
+        <div class="input-grid">
+          <div class="input-card">
+            <div class="input-card-icon">💡</div>
+            <label class="input-label">Electricity Usage</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="electricity" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">kWh/mo</span>
+            </div>
+            <div class="input-hint">Average home: ~300–900 kWh/month</div>
+          </div>
+          <div class="input-card">
+            <div class="input-card-icon">🔥</div>
+            <label class="input-label">Natural Gas</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="gas" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">units/mo</span>
+            </div>
+            <div class="input-hint">Average home: ~50–150 units/month</div>
+          </div>
+          <div class="input-card">
+            <div class="input-card-icon">🛢️</div>
+            <label class="input-label">Heating Oil</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="oil" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">litres/mo</span>
+            </div>
+            <div class="input-hint">Only if you use oil heating</div>
+          </div>
+          <div class="input-card">
+            <div class="input-card-icon">♻️</div>
+            <label class="input-label">Renewable Energy</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="renewable" class="field-input" placeholder="0" min="0" max="100">
+              <span class="input-unit">% of supply</span>
+            </div>
+            <div class="input-hint">Solar, wind etc. offsets your usage</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn-ghost" onclick="goBack('house')">← Back</button>
+          <button class="btn-primary" onclick="goNext('house')">Next: Travel →</button>
+        </div>
+      </section>
+
+      <!-- TRAVEL -->
+      <section class="page hidden" id="travel">
+        <div class="page-header">
+          <div class="page-icon-wrap travel-color">🚗</div>
+          <div>
+            <div class="page-step">Step 2 of 4</div>
+            <h2 class="page-title">Daily Travel</h2>
+          </div>
+        </div>
+        <p class="page-desc">How you get around every week makes a big difference to your emissions.</p>
+        <div class="input-grid">
+          <div class="input-card green-card">
+            <div class="input-card-icon">🚲</div>
+            <label class="input-label">Cycling</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="bike" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">km/week</span>
+            </div>
+            <div class="eco-badge">Near Zero Emissions</div>
+          </div>
+          <div class="input-card yellow-card">
+            <div class="input-card-icon">🚌</div>
+            <label class="input-label">Bus / Public Transit</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="bus" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">km/week</span>
+            </div>
+            <div class="eco-badge low-em">Low Emissions</div>
+          </div>
+          <div class="input-card yellow-card">
+            <div class="input-card-icon">🚆</div>
+            <label class="input-label">Train / Metro</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="train" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">km/week</span>
+            </div>
+            <div class="eco-badge low-em">Low Emissions</div>
+          </div>
+          <div class="input-card red-card">
+            <div class="input-card-icon">🚗</div>
+            <label class="input-label">Car (Petrol/Diesel)</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="car" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">km/week</span>
+            </div>
+            <div class="eco-badge high-em">Higher Emissions</div>
+          </div>
+          <div class="input-card yellow-card">
+            <div class="input-card-icon">🔋</div>
+            <label class="input-label">Electric Vehicle</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="ev" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">km/week</span>
+            </div>
+            <div class="eco-badge low-em">Lower Emissions</div>
+          </div>
+          <div class="input-card red-card">
+            <div class="input-card-icon">🛵</div>
+            <label class="input-label">Motorbike / Scooter</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="moto" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">km/week</span>
+            </div>
+            <div class="eco-badge high-em">Higher Emissions</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn-ghost" onclick="goBack('travel')">← Back</button>
+          <button class="btn-primary" onclick="goNext('travel')">Next: Flights →</button>
+        </div>
+      </section>
+
+      <!-- FLIGHTS -->
+      <section class="page hidden" id="flights">
+        <div class="page-header">
+          <div class="page-icon-wrap flight-color">✈️</div>
+          <div>
+            <div class="page-step">Step 3 of 4</div>
+            <h2 class="page-title">Flights</h2>
+          </div>
+        </div>
+        <p class="page-desc">Flights have an outsized impact — a single long-haul flight can equal months of driving.</p>
+        <div class="input-grid">
+          <div class="input-card">
+            <div class="input-card-icon">🛫</div>
+            <label class="input-label">Short Haul Flights</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="short" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">per year</span>
+            </div>
+            <div class="input-hint">Under ~3 hours (e.g. London–Paris)</div>
+          </div>
+          <div class="input-card">
+            <div class="input-card-icon">🌐</div>
+            <label class="input-label">Medium Haul Flights</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="medium" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">per year</span>
+            </div>
+            <div class="input-hint">3–6 hours (e.g. Europe–Middle East)</div>
+          </div>
+          <div class="input-card">
+            <div class="input-card-icon">🌏</div>
+            <label class="input-label">Long Haul Flights</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="long" class="field-input" placeholder="0" min="0">
+              <span class="input-unit">per year</span>
+            </div>
+            <div class="input-hint">6+ hours (e.g. London–New York)</div>
+          </div>
+          <div class="input-card">
+            <div class="input-card-icon">💼</div>
+            <label class="input-label">Business/First Class %</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="business" class="field-input" placeholder="0" min="0" max="100">
+              <span class="input-unit">% of flights</span>
+            </div>
+            <div class="input-hint">Premium cabins emit ~2.5× more</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn-ghost" onclick="goBack('flights')">← Back</button>
+          <button class="btn-primary" onclick="goNext('flights')">Next: Diet →</button>
+        </div>
+      </section>
+
+      <!-- DIET -->
+      <section class="page hidden" id="diet">
+        <div class="page-header">
+          <div class="page-icon-wrap diet-color">🥗</div>
+          <div>
+            <div class="page-step">Step 4 of 4</div>
+            <h2 class="page-title">Diet & Food</h2>
+          </div>
+        </div>
+        <p class="page-desc">Food systems account for roughly 26% of global emissions. Your diet matters more than you might think.</p>
+        <div class="diet-selector">
+          <p class="diet-question">What best describes your diet?</p>
+          <div class="diet-options" id="dietOptions">
+            <button class="diet-btn" data-diet="heavy-meat" onclick="selectDiet(this)">
+              <span class="diet-emoji">🥩</span>
+              <span class="diet-name">Heavy Meat</span>
+              <span class="diet-sub">Meat most meals</span>
+            </button>
+            <button class="diet-btn" data-diet="avg-meat" onclick="selectDiet(this)">
+              <span class="diet-emoji">🍗</span>
+              <span class="diet-name">Average Omnivore</span>
+              <span class="diet-sub">Meat a few times/week</span>
+            </button>
+            <button class="diet-btn" data-diet="low-meat" onclick="selectDiet(this)">
+              <span class="diet-emoji">🥘</span>
+              <span class="diet-name">Low Meat</span>
+              <span class="diet-sub">Meat 1–2×/week</span>
+            </button>
+            <button class="diet-btn" data-diet="pescatarian" onclick="selectDiet(this)">
+              <span class="diet-emoji">🐟</span>
+              <span class="diet-name">Pescatarian</span>
+              <span class="diet-sub">Fish, no red/white meat</span>
+            </button>
+            <button class="diet-btn" data-diet="vegetarian" onclick="selectDiet(this)">
+              <span class="diet-emoji">🥦</span>
+              <span class="diet-name">Vegetarian</span>
+              <span class="diet-sub">No meat or fish</span>
+            </button>
+            <button class="diet-btn" data-diet="vegan" onclick="selectDiet(this)">
+              <span class="diet-emoji">🌱</span>
+              <span class="diet-name">Vegan</span>
+              <span class="diet-sub">No animal products</span>
+            </button>
+          </div>
+        </div>
+        <div class="input-grid" style="margin-top: 24px;">
+          <div class="input-card">
+            <div class="input-card-icon">🛍️</div>
+            <label class="input-label">Food Waste (estimate)</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="waste" class="field-input" placeholder="0" min="0" max="100">
+              <span class="input-unit">% wasted</span>
+            </div>
+            <div class="input-hint">Average household wastes ~30%</div>
+          </div>
+          <div class="input-card">
+            <div class="input-card-icon">🌾</div>
+            <label class="input-label">Locally Sourced Food</label>
+            <div class="input-unit-wrap">
+              <input type="number" id="local" class="field-input" placeholder="0" min="0" max="100">
+              <span class="input-unit">% of diet</span>
+            </div>
+            <div class="input-hint">Local food reduces transport emissions</div>
+          </div>
+        </div>
+        <div class="page-actions">
+          <button class="btn-ghost" onclick="goBack('diet')">← Back</button>
+          <button class="btn-primary calculate-btn" onclick="calculate()">
+            🧮 Calculate My Footprint
+          </button>
+        </div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="page hidden" id="results">
+        <div class="results-header">
+          <h2 class="page-title">Your Carbon Footprint</h2>
+          <p class="page-desc">Here's a breakdown of your estimated annual CO₂ emissions.</p>
+        </div>
+
+        <div class="total-banner" id="totalBanner">
+          <div class="total-label">Annual Total</div>
+          <div class="total-value" id="totalValue">—</div>
+          <div class="total-unit">kg CO₂e / year</div>
+          <div class="total-comparison" id="totalComparison"></div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-card" id="rc-energy">
+            <div class="rc-header"><span class="rc-icon">⚡</span> Energy</div>
+            <div class="rc-bar-wrap"><div class="rc-bar energy-bar" id="bar-energy"></div></div>
+            <div class="rc-value" id="val-energy">—</div>
+          </div>
+          <div class="result-card" id="rc-travel">
+            <div class="rc-header"><span class="rc-icon">🚗</span> Travel</div>
+            <div class="rc-bar-wrap"><div class="rc-bar travel-bar" id="bar-travel"></div></div>
+            <div class="rc-value" id="val-travel">—</div>
+          </div>
+          <div class="result-card" id="rc-flights">
+            <div class="rc-header"><span class="rc-icon">✈️</span> Flights</div>
+            <div class="rc-bar-wrap"><div class="rc-bar flight-bar" id="bar-flights"></div></div>
+            <div class="rc-value" id="val-flights">—</div>
+          </div>
+          <div class="result-card" id="rc-diet">
+            <div class="rc-header"><span class="rc-icon">🥗</span> Diet</div>
+            <div class="rc-bar-wrap"><div class="rc-bar diet-bar" id="bar-diet"></div></div>
+            <div class="rc-value" id="val-diet">—</div>
+          </div>
+        </div>
+
+        <div class="tips-section">
+          <h3 class="tips-title">💡 Your Top Reduction Tips</h3>
+          <div class="tips-list" id="tipsList"></div>
+        </div>
+
+        <div class="page-actions">
+          <button class="btn-ghost" onclick="goBack('results')">← Back</button>
+          <button class="btn-primary" onclick="resetCalc()">🔄 Start Again</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
