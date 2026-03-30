@@ -125,7 +125,3 @@ All colours are CSS variables at the top of `styles.css`:
 > **Note:** Emission factors vary by country and grid mix. For production use, consider sourcing country-specific electricity factors from [Our World in Data](https://ourworldindata.org/grapher/carbon-intensity-electricity) or the IEA.
 
 ---
-
-## 📄 License
-
-MIT — free to use, modify, and distribute.
